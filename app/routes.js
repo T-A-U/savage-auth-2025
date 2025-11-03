@@ -37,10 +37,11 @@ module.exports = function(app, passport, db) {
     })
 
     app.put('/messages', (req, res) => {
+      let value = Object.keys(req.body).includes("thumbUp") ? req.body.thumbUp + 1 : req.body.thumbDown - 1 // Justin helped here & other places
       db.collection('messages')
       .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
         $set: {
-          thumbUp:req.body.thumbUp + 1
+          thumbUp: value
         }
       }, {
         sort: {_id: -1},
